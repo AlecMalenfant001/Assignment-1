@@ -3,29 +3,61 @@
 # Problem 1
 import numpy as np
 
+# Define input functions
+def inputNumRowsCols():
+    R = int(input("Enter the number of rows & columns: "))
+    if R > 99:
+        print("Error : The number of rows & columns cannot exceed 99")
+        inputNumRowsCols()
+    elif R <= 0:
+        print("Error : The number of rows & columns must be greater than 0")
+    else:
+        return R
 
-# Get Input from user
-# Instructions in a readme.txt file
-# For now we will use a fixed 3x3 matrix
-a = np.array([[1, 2, 3], [4, 5, 6], [9, 8, 9]])
 
+
+# Row wise user data input
+def userMatrixInput(numRows, numCols):
+    matrixArray = [] # Array to be converted into matrix
+    print("Please enter each row as a line of integers separated by a space")
+    # Input data
+    for i in range(numRows):
+        matrixArray.append(input("Enter row " + str(i+1) + " : ").split())
+        # Check the input matches the correct format
+        if len(matrixArray[i]) != numCols:
+            print("Error : number of columns does not match desired value")
+            waitToKill()
+
+
+
+    matrix = np.matrix(matrixArray).astype(int) # Convert to numpy matrix
+    return matrix
 
 # Get sum of left-to-right diagonal
-def sumLeftToRightDiagonal():
-    leftToRightDiagonal = np.diagonal(a) # get the left-to-right diagonal
-    return np.sum(leftToRightDiagonal) # return the sum of the diagonal
+def sumLeftToRightDiagonal(matrix):
+    return np.trace(matrix)
 
 # Get Sum of right-to-left diagonal
-def sumRightToLeftDiagonal():
-    rightToLeftDiagonal = np.fliplr(a).diagonal() # get the right-to-left diagonal
-    return np.sum(rightToLeftDiagonal) # return the sum of the diagonal
+def sumRightToLeftDiagonal(matrix):
+    flippedMatrix = np.fliplr(matrix)
+    return np.trace(flippedMatrix)
 
 # Get absolute difference of diagonals
-def printAbsoluteDifference():
-    print("|" + str(sumLeftToRightDiagonal()) + " - " + str(sumRightToLeftDiagonal()) + "| =" ) # print absolute value equation
-    print(str(abs(sumLeftToRightDiagonal() - sumRightToLeftDiagonal()))) #print result of absolute difference
+def printAbsoluteDifference(matrix):
+    print("|" + str(sumLeftToRightDiagonal(matrix)) + " - " + str(sumRightToLeftDiagonal(matrix)) + "| = " + # absolute difference equation
+    str(abs(sumLeftToRightDiagonal(matrix) - sumRightToLeftDiagonal(matrix)))) # absolute difference result
 
-# Main
-sumLeftToRightDiagonal()
-sumRightToLeftDiagonal()
-printAbsoluteDifference()
+def waitToKill():
+    # Wait for user input to kill the running program
+    input("Press enter to quit ")
+    quit()
+
+def main():
+    numRowsCols = inputNumRowsCols()
+    matrix = userMatrixInput(numRowsCols, numRowsCols) #we are only using square matricies, so the same value is passed twice
+    print(matrix)
+    printAbsoluteDifference(matrix)
+    waitToKill()
+
+if __name__ == "__main__":
+    main()
