@@ -15,7 +15,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 #convert .data to .csv
 try:
     with open('./iris.data', 'r') as in_file:
-        with open('./iris.csv', 'w') as out_file:
+        with open('./iris.csv', 'w', newline='') as out_file:
             writer = csv.writer(out_file)
             writer.writerow(('septal length', 'septal width', 'petal length', 'petal width', 'species')) #column titles
             reader = csv.reader(in_file)
